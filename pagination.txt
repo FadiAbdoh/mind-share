@@ -1,0 +1,73 @@
+"use client";
+
+import { motion } from "framer-motion";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+
+interface PaginationProps {
+    page: number;
+    hasPrev: boolean;
+    hasNext: boolean;
+    onPageChange: (newPage: number) => void;
+}
+
+export default function Pagination({
+    page,
+    hasPrev,
+    hasNext,
+    onPageChange,
+}: PaginationProps) {
+    return (
+        <div className="flex items-center justify-between my-6">
+            {/* زر Previous */}
+            <motion.button
+                disabled={!hasPrev}
+                onClick={() => onPageChange(page - 1)}
+                whileHover={hasPrev ? { scale: 1.05, x: -2 } : {}}
+                whileTap={hasPrev ? { scale: 0.95 } : {}}
+                className={`flex items-center gap-2 capitalize px-5 py-2.5 rounded-xl font-medium transition-colors duration-200 cursor-pointer shadow-sm ${
+                    hasPrev
+                        ? "bg-brand-primary text-white hover:bg-brand-secondary hover:shadow-md"
+                        : "bg-gray-200 text-gray-400 dark:bg-neutral-800 dark:text-neutral-600 cursor-not-allowed opacity-60"
+                }`}
+            >
+                <motion.div
+                    initial={false}
+                    animate={{ x: 0 }}
+                    whileHover={hasPrev ? { x: -4 } : {}}
+                    transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                >
+                    <ChevronLeft className="w-5 h-5" />
+                </motion.div>
+                <span>Previous</span>
+            </motion.button>
+
+            {/* مؤشر رقم الصفحة الحالي (بونص جمالي) */}
+            <span className="text-sm font-semibold text-text-soft">
+                Page <span className="text-brand-primary font-bold">{page}</span>
+            </span>
+
+            {/* زر Next */}
+            <motion.button
+                disabled={!hasNext}
+                onClick={() => onPageChange(page + 1)}
+                whileHover={hasNext ? { scale: 1.05, x: 2 } : {}}
+                whileTap={hasNext ? { scale: 0.95 } : {}}
+                className={`flex items-center gap-2 capitalize px-5 py-2.5 rounded-xl font-medium transition-colors duration-200 cursor-pointer shadow-sm ${
+                    hasNext
+                        ? "bg-brand-primary text-white hover:bg-brand-secondary hover:shadow-md"
+                        : "bg-gray-200 text-gray-400 dark:bg-neutral-800 dark:text-neutral-600 cursor-not-allowed opacity-60"
+                }`}
+            >
+                <span>Next</span>
+                <motion.div
+                    initial={false}
+                    animate={{ x: 0 }}
+                    whileHover={hasNext ? { x: 4 } : {}}
+                    transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                >
+                    <ChevronRight className="w-5 h-5" />
+                </motion.div>
+            </motion.button>
+        </div>
+    );
+}

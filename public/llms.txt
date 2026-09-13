@@ -1,0 +1,13 @@
+# Mind Share
+
+> Mind Share is a modern blog platform covering creative ideas, technology, fashion, travel, and culture.
+
+## Key Content
+
+- [Featured Stories](https://yourdomain.com/): Discover the latest and top featured blog posts.
+- [Categories](https://yourdomain.com/categories): Explore articles sorted by topics like coding, style, and food.
+- [About Us](https://yourdomain.com/about): Learn more about Mind Share and our mission.
+
+## Optional
+
+- [Sitemap](https://yourdomain.com/sitemap.xml): Full XML sitemap for crawlers.
