@@ -17,7 +17,6 @@ export default function ContactPage() {
         message: "",
     });
 
-
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
     ) => {
@@ -46,7 +45,15 @@ export default function ContactPage() {
             const res = await fetch('/api/contact', {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formData),
+                body: JSON.stringify({
+                    ...formData,
+                    name: status === 'authenticated' 
+                        ? session.user?.name || ''
+                        : formData.name,
+                    email: status === 'authenticated'
+                        ? session.user?.email || ''
+                        : formData.email,
+                }),
             })
 
             const data = await res.json();
