@@ -10,7 +10,14 @@ const transporter = nodemailer.createTransport({
 })
 
 export async function sendPasswordResetEmail(email: string, token: string) {
-    const resetLink = `${process.env.NEXTAUTH_URL || "http://localhost:3000"}/reset-password?token=${token}`;
+
+    const domain =
+        process.env.NEXTAUTH_URL ||
+        (process.env.VERCEL_URL
+            ? `https://${process.env.VERCEL_URL}`
+            : "https://mind-share-lake.vercel.app");
+
+    const resetLink = `${domain}/reset-password?token=${token}`;
 
     await transporter.sendMail({
         from: `"Mind Share" <${process.env.EMAIL_USER}>`,
