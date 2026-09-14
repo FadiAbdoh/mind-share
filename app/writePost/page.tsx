@@ -238,7 +238,7 @@ export default function WritePostPage() {
                         required
                         dir="auto"
                         placeholder="Article Title..."
-                        className="w-full text-2xl sm:text-4xl font-extrabold bg-transparent text-text-main placeholder:text-text-soft/40 focus:outline-none border-b border-transparent focus:border-gray-200 dark:focus:border-neutral-800 pb-2 transition-colors"
+                        className="w-full text-base sm:text-xl font-extrabold bg-transparent text-text-main placeholder:text-text-soft/40 focus:outline-none border-b border-transparent focus:border-gray-200 dark:focus:border-neutral-800 pb-2 transition-colors"
                     />
                 </div>
 
@@ -307,6 +307,9 @@ export default function WritePostPage() {
                     <div className="flex items-center gap-2 text-xs font-semibold text-text-soft uppercase tracking-wider pb-1">
                         <AlignLeft className="w-3.5 h-3.5" />
                         <span>Story Content</span>
+                        <span className="text-xs text-text-soft font-medium">
+                            (## for main title)
+                        </span>
                     </div>
                     <textarea
                         value={content}

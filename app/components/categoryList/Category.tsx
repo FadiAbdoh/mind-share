@@ -3,7 +3,6 @@ import Link from "next/link";
 import Image from "next/image";
 import prisma from '@/lib/prismadb';
 
-
 const categoryColors: Record<string, string> = {
     coding: "bg-brand-coding",
     fashion: "bg-brand-fashion",
@@ -17,7 +16,7 @@ export default async function Category() {
 
     const categories = await prisma.category.findMany();
     return (
-        <div>
+        <div className="my-4">
             <h1 aria-label="title" className="text-xl text-base font-semibold">Popular Categories</h1>
             <div aria-label="categories" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 my-6">
                 {categories.map((cat) => (

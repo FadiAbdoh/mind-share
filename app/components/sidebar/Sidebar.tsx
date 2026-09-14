@@ -14,7 +14,7 @@ const categoryColors: Record<string, string> = {
 };
 
 export default async function Sidebar() {
-    // const categories = await prisma.category.findMany();
+        
     const [categories, popularPosts, editorPickPosts] = await Promise.all([
         prisma.category.findMany(),
         // most popular

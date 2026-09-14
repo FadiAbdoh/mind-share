@@ -8,6 +8,7 @@ import { Calendar, Eye } from "lucide-react";
 import { cookies } from "next/headers";
 import ViewTracker from "@/app/components/viewTracker/ViewTracker";
 import Link from "next/link";
+import ReactMarkdown from 'react-markdown';
 
 const categoryBgColors: Record<string, string> = {
     coding: "bg-brand-coding",
@@ -27,7 +28,7 @@ interface SinglePostPageProps {
 export default async function SinglePostPage({ params }: SinglePostPageProps) {
 
     const { slug } = await params;
-    
+
     const post = await prisma.post.findUnique({
         where: { slug },
         include: {
@@ -51,16 +52,16 @@ export default async function SinglePostPage({ params }: SinglePostPageProps) {
 
     return (
         <div className="px-1 py-4 md:px-4 md:py-8 space-y-12">
-            <ViewTracker slug={slug}/>
+            <ViewTracker slug={slug} />
 
             <header className="flex flex-col-reverse lg:flex-row items-center gap-8">
                 <div className="flex-1 space-y-5 w-full">
-                    <span 
-                    className={`${badgeBg} px-4 py-1.5 rounded-full text-white font-semibold text-xs md:text-sm uppercase tracking-wider inline-block`}
+                    <span
+                        className={`${badgeBg} px-4 py-1.5 rounded-full text-white font-semibold text-xs md:text-sm uppercase tracking-wider inline-block`}
                     >
                         {post.catSlug || post.cat.title}
                     </span>
-                    <h1 className="text-2xl sm:text-3xl lg:text-5xl font-black text-text-main leading-tight">
+                    <h1 className="text-xl sm:text-2xl lg:text-3xl font-black text-text-main leading-tight">
                         {post.title}
                     </h1>
                     <div className="flex items-center gap-4 pt-2"
@@ -68,10 +69,10 @@ export default async function SinglePostPage({ params }: SinglePostPageProps) {
                         <div className="relative w-11 h-11 md:w-13 md:h-13 shrink-0">
                             <Link href={`/profile/${post.user.id}`}>
                                 <Image
-                                src={post.user.image || '/def-profile-svg.svg'}
-                                alt={post.user?.name || "Author"}
-                                fill
-                                className="rounded-full object-cover border-2 border-brand-primary/20"
+                                    src={post.user.image || '/def-profile-svg.svg'}
+                                    alt={post.user?.name || "Author"}
+                                    fill
+                                    className="rounded-full object-cover border-2 border-brand-primary/20"
                                 />
                             </Link>
                         </div>
@@ -96,23 +97,23 @@ export default async function SinglePostPage({ params }: SinglePostPageProps) {
                     </div>
                 </div>
                 {post.mediaUrl && (
-                    <div 
-                    className="flex-1 w-full relative aspect-video lg:aspect-4/3 max-h-[360px] rounded-3xl overflow-hidden shadow-md bg-neutral-100 dark:bg-neutral-800">
+                    <div
+                        className="flex-1 w-full relative aspect-video lg:aspect-4/3 max-h-[360px] rounded-3xl overflow-hidden shadow-md bg-neutral-100 dark:bg-neutral-800">
                         {post.mediaType === 'video' ? (
-                            <video 
-                            src={post.mediaUrl}
-                            controls
-                            playsInline
-                            className="w-full h-full object-cover"
+                            <video
+                                src={post.mediaUrl}
+                                controls
+                                playsInline
+                                className="w-full h-full object-cover"
                             />
                         ) : (
-                            <Image 
-                            src={post.mediaUrl}
-                            alt={post.title}
-                            fill
-                            priority
-                            sizes="(max-width: 1024px) 100vw, 50vw"
-                            className="object-cover"
+                            <Image
+                                src={post.mediaUrl}
+                                alt={post.title}
+                                fill
+                                priority
+                                sizes="(max-width: 1024px) 100vw, 50vw"
+                                className="object-cover"
                             />
                         )}
                     </div>
@@ -121,10 +122,49 @@ export default async function SinglePostPage({ params }: SinglePostPageProps) {
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
                 <main className="lg:col-span-8 space-y-10">
-                    <article 
-                    className=""
-                    dangerouslySetInnerHTML={{__html: post.desc}} />
-
+                    <article className="max-w-none text-text-main">
+                        <ReactMarkdown
+                            components={{
+                                h1: ({ children }) => (
+                                    <h1 className="text-2xl sm:text-3xl font-extrabold text-text-main mt-8 mb-4 tracking-tight">
+                                        {children}
+                                    </h1>
+                                ),
+                                h2: ({ children }) => (
+                                    <h2 className="text-xl sm:text-2xl font-bold text-text-main mt-8 mb-3 tracking-tight">
+                                        {children}
+                                    </h2>
+                                ),
+                                h3: ({ children }) => (
+                                    <h3 className="text-lg sm:text-xl font-bold text-text-main mt-6 mb-2">
+                                        {children}
+                                    </h3>
+                                ),
+                                p: ({ children }) => (
+                                    <p className="text-base sm:text-lg leading-relaxed text-text-soft mb-6 font-normal whitespace-pre-line">
+                                        {children}
+                                    </p>
+                                ),
+                                ul: ({ children }) => (
+                                    <ul className="list-disc list-inside space-y-2 mb-6 text-text-soft text-base sm:text-lg">
+                                        {children}
+                                    </ul>
+                                ),
+                                ol: ({ children }) => (
+                                    <ol className="list-decimal list-inside space-y-2 mb-6 text-text-soft text-base sm:text-lg">
+                                        {children}
+                                    </ol>
+                                ),
+                                blockquote: ({ children }) => (
+                                    <blockquote className="border-l-4 border-brand-primary pl-4 my-4 italic text-text-soft">
+                                        {children}
+                                    </blockquote>
+                                ),
+                            }}
+                        >
+                            {post.desc}
+                        </ReactMarkdown>
+                    </article>
                     <Comment />
                 </main>
                 <aside className="lg:col-span-4 lg:sticky lg:top-20">
