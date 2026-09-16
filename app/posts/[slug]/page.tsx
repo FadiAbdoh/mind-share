@@ -165,7 +165,7 @@ export default async function SinglePostPage({ params }: SinglePostPageProps) {
                             {post.desc}
                         </ReactMarkdown>
                     </article>
-                    <Comment />
+                    <Comment postSlug={slug}/>
                 </main>
                 <aside className="lg:col-span-4 lg:sticky lg:top-20">
                     <MenuMP />

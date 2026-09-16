@@ -90,7 +90,10 @@ model Comment {
   user      User     @relation(fields: [userEmail], references: [email], onDelete: Cascade)
   postSlug  String
   post      Post     @relation(fields: [postSlug], references: [slug], onDelete: Cascade)
-
+  likes     String[] @default([])
+  parentId  String?   @db.ObjectId
+  parent    Comment?  @relation("CommentReplies", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  replies   Comment[] @relation("CommentReplies")
 }
 
 model PasswordResetToken {

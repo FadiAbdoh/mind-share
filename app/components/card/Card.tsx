@@ -39,8 +39,6 @@ export default function Card({ post }: PostCardProps) {
         year: "numeric",
     });
 
-    console.log(post.user)
-
     return (
         <div className="flex flex-col md:flex-row gap-5">
             {/* media if exists */}
