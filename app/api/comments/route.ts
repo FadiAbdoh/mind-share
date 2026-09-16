@@ -1,8 +1,9 @@
 
-import Prisma from '@/lib/prismadb';
+
 import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 import { authOptions } from '../auth/[...nextauth]/route';
+import prisma from '@/lib/prismadb';
 
 export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
@@ -19,7 +20,10 @@ export async function GET(req: Request) {
         const comments = await prisma?.comment.findMany({
             where: {
                 postSlug,
-                parentId: null,
+                OR: [
+                    { parentId: null },
+                    { parentId: { isSet: false } }, // خاص بـ MongoDB للتعامل مع الحقول غير الموجودة
+                ],
             },
             include: {
                 user: {
