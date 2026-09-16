@@ -23,12 +23,12 @@ export async function GET(req: Request) {
             },
             include: {
                 user: {
-                    select: { name: true, image: true, email: true }
+                    select: { name: true, image: true, email: true, id: true }
                 },
                 replies: {
                     include: {
                         user: {
-                            select: { name: true, image: true, email: true }
+                            select: { name: true, image: true, email: true, id: true }
                         }
                     },
                     orderBy: { createdAt: 'asc' },
